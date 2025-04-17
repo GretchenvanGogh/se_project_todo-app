@@ -14,7 +14,7 @@ const hideInputError = (formElement, inputElement, settings) => {
   errorElement.textContent = "";
 };
 
-const checkInputValidity = (formElement, inputElement, settings) => {
+/*const checkInputValidity = (formElement, inputElement, settings) => {
   if (!inputElement.validity.valid) {
     showInputError(
       formElement,
@@ -25,7 +25,7 @@ const checkInputValidity = (formElement, inputElement, settings) => {
   } else {
     hideInputError(formElement, inputElement, settings);
   }
-};
+};*/
 
 const hasInvalidInput = (inputList) => {
   return inputList.some((inputElement) => {
@@ -45,10 +45,10 @@ const toggleButtonState = (inputList, buttonElement, settings) => {
 
 const setEventListeners = (formElement, settings) => {
   const inputList = Array.from(
-    formElement.querySelectorAll(settings.inputSelector),
+    formElement.querySelectorAll(settings.inputSelector)
   );
   const buttonElement = formElement.querySelector(
-    settings.submitButtonSelector,
+    settings.submitButtonSelector
   );
 
   toggleButtonState(inputList, buttonElement, settings);
