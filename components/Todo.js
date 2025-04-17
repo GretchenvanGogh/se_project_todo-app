@@ -7,9 +7,10 @@ class Todo {
   _setEventListeners() {
     this._todoDeleteBtn.addEventListener("click", () => {
       this._todoElement.remove();
-      this._todoCheckboxEl.addEventListener("change", () => {
-        this._data.completed = !this._data.completed;
-      });
+    });
+
+    this._todoCheckboxEl.addEventListener("change", () => {
+      this._data.completed = !this._data.completed;
     });
   }
 
@@ -20,6 +21,18 @@ class Todo {
     this._todoCheckboxEl.id = `todo-${this._data.id}`;
     this._todoLabel.setAttribute("for", `todo-${this._data.id}`);
   }
+
+  _formatDate(dateString) {
+    const date = new Date(dateString);
+    return !isNaN(date)
+      ? date.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        })
+      : "Invalid Date";
+  }
+
   getView() {
     this._todoElement = this._templateElement.content
       .querySelector(".todo")
@@ -30,19 +43,7 @@ class Todo {
     this._todoDeleteBtn = this._todoElement.querySelector(".todo__delete-btn");
 
     todoNameEl.textContent = this._data.name;
-    todoDate.textContent = this._data.date;
-
-    //TODO: implement dates
-    // If a due date has been set, parsing this it with `new Date` will return a
-   // number. If so, we display a string version of the due date in the todo.
-  
-    const dueDate = new Date(data.date);
-    if (!isNaN(dueDate)) {
-      todoDate.textContent = `Due: ${dueDate.toLocaleString("en-US", {
-         year: "numeric",
-         month: "short",
-         day: "numeric",
-       })}`;
+    this._todoDate.textContent = `Due: ${this._formatDate(this._data.date)}`;
 
     this._generateCheckboxEl();
     this._setEventListeners();

@@ -25,7 +25,7 @@ const hideInputError = (formElement, inputElement, settings) => {
   } else {
     hideInputError(formElement, inputElement, settings);
   }
-};*/
+};
 
 const hasInvalidInput = (inputList) => {
   return inputList.some((inputElement) => {
