@@ -64,12 +64,23 @@ class FormValidator {
   enableValidation() {
     this._formEl.addEventListener("submit", (evt) => {
       evt.preventDefault();
+      this.resetValidation();
     });
     this._setEventListeners();
   }
+
+  resetValidation() {
+    const buttonElement = this._formEl.querySelector(
+      this._submitButtonSelector
+    );
+
+    this._inputList.forEach((input) => {
+      input.value = "";
+      this._hideInputError(input);
+    });
+
+    buttonElement.disabled = true;
+    buttonElement.classList.add(this._inactiveButtonClass);
+  }
 }
-
-//const FormValidator = new FormValidator(settings, formElement);
-//FormValidator.enableValidation();
-
 export default FormValidator;
