@@ -27,7 +27,7 @@ class Todo {
   }
 
   _formatDate() {
-    this._date = this._todoElement.querySelector(".todo__date");
+    this._dateEl = this._todoElement.querySelector(".todo__date");
     const dueDate = new Date(this._date);
     if (!isNaN(dueDate)) {
       this._dateEl.textContent = `Due:
@@ -49,10 +49,16 @@ class Todo {
     todoName.textContent = this._name;
   }
 
+  _generateDateEl() {
+    const todoDate = this._todoElement.querySelector(".todo__date");
+    todoDate.textContent = this._date;
+  }
+
   getView() {
     this._todoElement = this._getTemplate();
     this._todoDeleteBtn = this._todoElement.querySelector(".todo__delete-btn");
     this._generateNameEl();
+    this._generateDateEl();
     this._formatDate();
     this._generateCheckboxEl();
     this._setEventListeners();
