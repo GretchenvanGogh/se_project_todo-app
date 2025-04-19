@@ -4,7 +4,7 @@ The Simple Todo App enables users to input and list items with their due dates, 
 
 ## Functionality
 
-Users will click the "+Add Todo" button and a popup will appear and the user can input/answer "What needs to be done?" and add a due date (optional). By clicking the "Create" button, the new line item will appear on the todo list. The user can mark the item as done by clicking the checkbox. Items can be deleted by simply clicking "Delete."
+When users click the "+Add Todo" button and a popup will appear. The user can enter a todo item and add a due date (optional) into the corresponding input fields. The form will validate the input as the user enters or removes characters. By clicking the "Create" button, the new line item will appear on the todo list. The user can mark the item as done by clicking the checkbox. Items can be deleted by simply clicking "Delete."
 
 ## Technology
 
