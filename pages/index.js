@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 import { initialTodos, validationConfig } from "../utils/constants.js";
 import Todo from "../components/Todo.js";
 import FormValidator from "../components/FormValidator.js";
+import Section from "../components/Section.js";
 
 const adjustDateTimezone = (dateInput) => {
   if (!dateInput) {
@@ -17,6 +18,23 @@ const addTodoPopup = document.querySelector("#add-todo-popup");
 const addTodoForm = document.forms["add-todo-form"];
 const addTodoCloseBtn = addTodoPopup.querySelector(".popup__close");
 const todosList = document.querySelector(".todos__list");
+
+const generateTodo = (data) => {
+  const todo = new Todo(data, "#todo-template");
+  const todoElement = todo.getView();
+  return todoElement;
+};
+
+const section = new Section({
+  items: initialTodos,
+  renderer: (item) => {
+    const todo = generateTodo(item);
+    section.addItem(todo);
+  },
+  containerSelector: ".todos__list",
+});
+
+section.renderItems(); //call section instances renderItems method
 
 function handleEscClose(evt) {
   if (evt.key === "Escape") {
@@ -38,18 +56,6 @@ const closeModal = (modal) => {
   document.removeEventListener("keydown", handleEscClose);
 };
 
-// The logic in this function should all be handled in the Todo class.
-const generateTodo = (data) => {
-  const todo = new Todo(data, "#todo-template");
-  const todoElement = todo.getView();
-  return todoElement;
-};
-
-const renderTodo = (item) => {
-  const todo = generateTodo(item);
-  todosList.append(todo);
-};
-
 addTodoButton.addEventListener("click", () => {
   openModal(addTodoPopup);
 });
@@ -67,13 +73,12 @@ addTodoForm.addEventListener("submit", (evt) => {
   const date = adjustDateTimezone(dateInput);
 
   const id = uuidv4();
-  const values = { name, date, id };
-  renderTodo(values);
-  closeModal(addTodoPopup);
-});
 
-initialTodos.forEach((item) => {
-  renderTodo(item);
+  const values = { name, date, id };
+  const todo = generateTodo(values);
+  section.addItem(todo);
+
+  closeModal(addTodoPopup);
 });
 
 const newTodoValidator = new FormValidator(validationConfig, addTodoForm);
