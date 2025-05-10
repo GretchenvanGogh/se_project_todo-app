@@ -5,24 +5,11 @@ import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import TodoCounter from "../components/TodoCounter.js";
-
-const adjustDateTimezone = (dateInput) => {
-  if (!dateInput) {
-    return "";
-  }
-  const date = new Date(dateInput);
-  date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
-  return date;
-};
+import { adjustDateTimezone } from "../components/Todo.js";
 
 const addTodoButton = document.querySelector(".button_action_add");
-const addTodoPopupEl = document.querySelector("#add-todo-popup");
 const addTodoForm = document.forms["add-todo-form"];
-const addTodoCloseBtn = addTodoPopupEl.querySelector(".popup__close");
-const todosList = document.querySelector(".todos__list");
-
 const todoCounter = new TodoCounter(initialTodos, ".counter__text");
-
 const addTodoPopup = new PopupWithForm({
   popupSelector: "#add-todo-popup",
 
@@ -72,15 +59,6 @@ const section = new Section({
 });
 
 section.renderItems();
-
-function handleEscClose(evt) {
-  if (evt.key === "Escape") {
-    const openedPopup = document.querySelector(".popup_visible");
-    if (openedPopup) {
-      closeModal(openedPopup);
-    }
-  }
-}
 
 addTodoButton.addEventListener("click", () => {
   addTodoPopup.open();

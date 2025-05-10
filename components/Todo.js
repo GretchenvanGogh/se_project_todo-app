@@ -1,3 +1,12 @@
+export const adjustDateTimezone = (dateInput) => {
+  if (!dateInput) {
+    return null;
+  }
+  const date = new Date(dateInput);
+  date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+  return date;
+};
+
 class Todo {
   constructor(data, selector, handleCheck, handleDelete) {
     this._data = data;
@@ -31,18 +40,19 @@ class Todo {
   }
 
   _formatDate() {
-    this._dateEl = this._todoElement.querySelector(".todo__date");
-    const dueDate = new Date(this._date);
-    if (!isNaN(dueDate)) {
-      this._dateEl.textContent = `Due:
+    if (!this._date) {
+      return "";
+    }
+    const dueDate = adjustDateTimezone(this._date);
+    if (dueDate && !isNaN(dueDate)) {
+      return `Due:
       ${dueDate.toLocaleString("en-US", {
         year: "numeric",
         month: "short",
         day: "numeric",
       })}`.trim();
-    } else {
-      this._dateEl.textContent = "";
     }
+    return "";
   }
 
   _getTemplate() {
@@ -64,8 +74,7 @@ class Todo {
     this._todoElement = this._getTemplate();
     this._todoDeleteBtn = this._todoElement.querySelector(".todo__delete-btn");
     this._generateNameEl();
-    //this._generateDateEl();
-    this._formatDate();
+    this._generateDateEl();
     this._generateCheckboxEl();
     this._setEventListeners();
     return this._todoElement;
