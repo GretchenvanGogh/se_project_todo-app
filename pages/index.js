@@ -21,8 +21,8 @@ const addTodoPopup = new PopupWithForm({
     const date = adjustDateTimezone(dateInput);
     const id = uuidv4();
     const values = { name, date, id };
-    const todo = generateTodo(values);
-    section.addItem(todo);
+    const todoElement = Todo.renderTodo(values, handleCheck, handleDelete);
+    section.addItem(todoElement);
 
     todoCounter.updateTotal(true);
 
@@ -43,17 +43,11 @@ function handleDelete(completed) {
   }
 }
 
-const generateTodo = (data) => {
-  const todo = new Todo(data, "#todo-template", handleCheck, handleDelete);
-  const todoElement = todo.getView();
-  return todoElement;
-};
-
 const section = new Section({
   items: initialTodos,
   renderer: (item) => {
-    const todo = generateTodo(item);
-    section.addItem(todo);
+    const todoElement = Todo.renderTodo(item, handleCheck, handleDelete);
+    section.addItem(todoElement);
   },
   containerSelector: ".todos__list",
 });
@@ -61,6 +55,7 @@ const section = new Section({
 section.renderItems();
 
 addTodoButton.addEventListener("click", () => {
+  newTodoValidator.resetValidation();
   addTodoPopup.open();
 });
 
